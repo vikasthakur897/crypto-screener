@@ -70,6 +70,8 @@ const TrendingCoins = async () => {
         data={trandingCoins.coins.slice(0,6) || []}
         rowKey={(row) => row.item.id}
         tableClassName="trending-coin-table"
+        headerCellClassName="py-3!"
+        bodyCellClassName="py-2!"
       />
       </div>
     </div>
