@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 
 
-const DateTable = <T,>({columns, data, rowKey, tableClassName, headerRowClassName, headerCellClassName, headerClassName,bodyRowClassName , bodyCellClassName}: DataTableProps<T>) => {
+const DataTable = <T,>({columns, data, rowKey, tableClassName, headerRowClassName, headerCellClassName, headerClassName,bodyRowClassName , bodyCellClassName}: DataTableProps<T>) => {
   return (
      <Table className={cn('custom-scrollbar', tableClassName)}>
   
@@ -39,4 +39,4 @@ const DateTable = <T,>({columns, data, rowKey, tableClassName, headerRowClassNam
   )
 }
 
-export default DateTable
+export default DataTable
