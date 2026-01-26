@@ -4,7 +4,7 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import DateTable from "../DateTable";
+import DataTable from "../DataTable";
 
 const TrendingCoins = async () => {
   const trandingCoins = await fetcher<{ coins: TrendingCoin[] }>(
@@ -65,7 +65,7 @@ const TrendingCoins = async () => {
     <div id="trending-coins">
       <h4>Trading Coin</h4>
       <div id="trending-coins">
-      <DateTable
+      <DataTable
         columns={columns}
         data={trandingCoins.coins.slice(0,6) || []}
         rowKey={(row) => row.item.id}
