@@ -1,37 +1,49 @@
-import React from 'react'
-import { fetcher } from '@/lib/coingecko.action'
-import Image from 'next/image'
-import { formatCurrency } from '@/lib/utils'
-import { CoinOverviewFallback } from './fallback'
+import React from 'react';
 
-const CoinOverview = async() => {
-    let coin;
-    try {
-      coin = await fetcher<CoinDetailsData>('/coins/bitcoin',{dex_pair_format: 'symbol'})
-      
-    } catch (error) {
+import Image from 'next/image';
+import { formatCurrency } from '@/lib/utils';
+import { CoinOverviewFallback } from './fallback';
+import CandlestickChart from '@/components/CandlestickChart';
+import { fetcher } from '@/lib/coingecko.action';
 
-      console.error("Error fetching coin overview:", error);
-      return <CoinOverviewFallback />;
-      
-    }
+const CoinOverview = async () => {
+  try {
+    const [coin, coinOHLCData] = await Promise.all([
+      fetcher<CoinDetailsData>('/coins/bitcoin', {
+        dex_pair_format: 'symbol',
+      }),
+      fetcher<OHLCData[]>('/coins/bitcoin/ohlc', {
+        vs_currency: 'usd',
+        days: 1,
+        interval: 'hourly',
+        precision: 'full',
+      }),
+    ]);
 
-  return (
-    <div id="coin-overview">
-              <div className="header p-2">
-                <Image
-                  src={coin.image.large}
-                  alt={coin.name}
-                  width={20}
-                  height={10}
-                />
-                <div className="info">
-                  <p>{coin.name} / {coin.symbol.toUpperCase()}</p>
-                  <h1>{formatCurrency(coin.market_data.current_price.usd)}</h1>
-                </div>
-              </div>
+    return (
+     
+      <div id="coin-overview">
+        <CandlestickChart data={coinOHLCData} coinId="bitcoin" liveInterval={'1s'} setLiveInterval={function (): void {
+            throw new Error('Function not implemented.');
+          } }>
+          <div className="header pt-2">
+            <Image src={coin.image.large} alt={coin.name} width={56} height={56} />
+            <div className="info">
+              <p>
+                {coin.name} / {coin.symbol.toUpperCase()}
+              </p>
+              // eslint-disable-next-line react-hooks/error-boundaries
+              <h1>{formatCurrency(coin.market_data.current_price.usd)}</h1>
             </div>
-  )
-}
+          </div>
+        </CandlestickChart>
+      </div>
+     
+    );
+  } catch (error) {
+    console.error('Error fetching coin overview:', error);
+    return <CoinOverviewFallback />;
+  }
+};
 
-export default CoinOverview
+export default CoinOverview;
