@@ -1,27 +1,34 @@
-import React from 'react'
-import { fetcher } from '@/lib/coingecko.action'
-import Image from 'next/image'
-import { formatCurrency } from '@/lib/utils'
+import CoinOverviewClient from './CoinOverviewClient';
+import { CoinOverviewFallback } from './fallback';
+import { fetcher } from '@/lib/coingecko.action';
 
-const CoinOverview = async() => {
-    const coin = await fetcher<CoinDetailsData>('/coins/bitcoin',{dex_pair_format: 'symbol'})
+const CoinOverview = async () => {
+  let coin: CoinDetailsData | null = null;
+  let coinOHLCData: OHLCData[] | null = null;
+
+  try {
+    [coin, coinOHLCData] = await Promise.all([
+      fetcher<CoinDetailsData>('/coins/bitcoin'),
+      fetcher<OHLCData[]>('/coins/bitcoin/ohlc', {
+        vs_currency: 'usd',
+        days: 1,
+      }),
+    ]);
+  } catch (error) {
+    console.error('Error fetching coin overview:', error);
+  }
+
+  
+  if (!coin || !coinOHLCData) {
+    return <CoinOverviewFallback />;
+  }
 
   return (
-    <div id="coin-overview">
-              <div className="header">
-                <Image
-                  src={coin.image.large}
-                  alt={coin.name}
-                  width={20}
-                  height={10}
-                />
-                <div className="info">
-                  <p>{coin.name} / {coin.symbol.toUpperCase()}</p>
-                  <h1>{formatCurrency(coin.market_data.current_price.usd)}</h1>
-                </div>
-              </div>
-            </div>
-  )
-}
+    <CoinOverviewClient
+      coin={coin}
+      coinOHLCData={coinOHLCData}
+    />
+  );
+};
 
-export default CoinOverview
+export default CoinOverview;
