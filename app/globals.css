@@ -219,7 +219,7 @@
     }
 
     .config-button-active {
-      @apply rounded-sm px-2.5 py-1.5 border-0 cursor-pointer text-sm text-gray-900 bg-green-500;
+      @apply rounded-sm px-2.5 py-1.5 border-0 cursor-pointer text-sm text-gray-100 bg-blue-600;
     }
 
     .chart {

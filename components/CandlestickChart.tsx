@@ -145,7 +145,7 @@ const CandlestickChart = ({
           ))}
         </div>
 
-        {liveInterval && (
+        {/* {liveInterval && (
           <div className="button-group">
             <span className="text-sm mx-2 font-medium text-purple-100/50">Update Frequency:</span>
             {LIVE_INTERVAL_BUTTONS.map(({ value, label }) => (
@@ -159,7 +159,7 @@ const CandlestickChart = ({
               </button>
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
       <div ref={chartContainerRef} className="chart" style={{ height }} />
