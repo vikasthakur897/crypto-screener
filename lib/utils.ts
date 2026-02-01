@@ -6,6 +6,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function formatPrice(
+  price: number | null | undefined,
+  currency: string = 'USD'
+): string {
+  if (price === null || price === undefined || isNaN(price)) {
+    return '--';
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: price < 1 ? 6 : 2,
+    maximumFractionDigits: price < 1 ? 6 : 2,
+  }).format(price);
+}
+
 export function formatCurrency(
   value: number | null | undefined,
   digits?: number,

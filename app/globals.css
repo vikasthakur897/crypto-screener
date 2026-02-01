@@ -868,11 +868,11 @@
       }
 
       .page-link {
-        @apply hover:bg-dark-400! rounded-sm text-base cursor-pointer;
+        @apply hover:bg-dark-400 rounded-sm text-base cursor-pointer;
       }
 
       .page-link-active {
-        @apply bg-green-500! text-dark-900 font-semibold;
+        @apply bg-blue-500 text-gray-200 font-semibold;
       }
     }
   }
