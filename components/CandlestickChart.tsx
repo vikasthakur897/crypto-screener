@@ -15,7 +15,7 @@ import {
   getCandlestickConfig,
   PERIOD_BUTTONS,
   PERIOD_CONFIG,
-} from '@/constanst';
+} from '@/lib/constants';
 
 const toSeconds = (data: OHLCData[]): OHLCData[] =>
   data.map(

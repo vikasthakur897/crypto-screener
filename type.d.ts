@@ -214,6 +214,9 @@ interface CoinDetailsData {
     total_volume: {
       usd: number;
     };
+    circulating_supply: number;
+    total_supply: number;
+    max_supply: number;
   };
   market_cap_rank: number;
   description: {
